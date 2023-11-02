@@ -1,18 +1,26 @@
 // Standard Libraries
 #include <stdint.h>
 #include <stddef.h>
-#include "limine.h"
 
-// Drivers
-#include "drivers/serial.h"
-#include "drivers/display.h"
-#include "drivers/font.h"
+// Kernel Dependecies
+#include "utilities/limine.h"
 
-// Utilities
+// Kernel Imports
+#include "display/display.h"
+#include "display/font.h"
+#include "serial/serial.h"
+#include "mm/mm.h"
+#include "gdt/gdt.h"
+#include "idt/idt.h"
+
+// Kernel Utilities
 #include <libkrnl/essentials.h>
 #include <libkrnl/arch/x86/cpu.h>
 #include <libkrnl/arch/x86/power.h>
 #include <libkrnl/arch/x86/rtc.h>
+
+// Other Utilities
+#include "utilities/math.h"
 
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
@@ -33,6 +41,7 @@ void _start(void)
     init_display(framebuffer_request);
 
     serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Initialized display driver.");
+    serial_println(SERIAL_PORT, "\e[0;32mrunning random noise gen...\e[0m");
     int width = getWidth();
     int height = getHeight();
 
@@ -42,6 +51,8 @@ void _start(void)
         uint8_t blue = rand() % 256;
         draw_pixel(i % width, i / width, red, green, blue);
     }
+
+    serial_println(SERIAL_PORT, "done.");
 
     hcf();
 }

@@ -20,6 +20,8 @@
         "variant": "c",
         "math.h": "c",
         "cstdint": "cpp",
-        "power.h": "c"
+        "power.h": "c",
+        "display.h": "c",
+        "compare": "c"
     }
 }

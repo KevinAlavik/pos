@@ -1,3 +1,4 @@
+#include <stdint.h>
 #define PI 3.14159265
 
 int abs(int value) {
@@ -23,10 +24,6 @@ float cos(float angle) {
 
 float sin(float angle) {
     return cos(90 - angle);
-}
-
-uint64_t llabs(int64_t num) {
-    return (num < 0) ? -num : num;
 }
 
 int map(int value, int from_low, int from_high, int to_low, int to_high) {

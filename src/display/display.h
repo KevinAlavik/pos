@@ -1,4 +1,3 @@
-#include "../utilities/math.h"
 struct limine_framebuffer *framebuffer;
 volatile uint32_t *fb_ptr;
 
@@ -36,10 +35,14 @@ int getWidth() {
 }
 
 void draw_line(uint64_t x1, uint64_t y1, uint64_t x2, uint64_t y2, uint8_t r, uint8_t g, uint8_t b) {
+    uint64_t u_llabs(int64_t num) {
+        return (num < 0) ? -num : num;
+    }
+    
     int64_t dx = x2 - x1;
     int64_t dy = y2 - y1;
-    int64_t dxabs = llabs(dx);
-    int64_t dyabs = llabs(dy);
+    int64_t dxabs = u_llabs(dx);
+    int64_t dyabs = u_llabs(dy);
     int64_t sdx = (x2 > x1) ? 1 : -1;
     int64_t sdy = (y2 > y1) ? 1 : -1;
     int64_t x = dyabs / 2;
