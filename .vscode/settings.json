@@ -1,0 +1,24 @@
+{
+    "files.associations": {
+        "stdint.h": "c",
+        "limine.h": "c",
+        "algorithm": "c",
+        "random": "c",
+        "stdlib.h": "c",
+        "rtc.h": "c",
+        "cpu.h": "c",
+        "krnlincl.h": "c",
+        "__locale": "c",
+        "__threading_support": "c",
+        "locale": "c",
+        "memory": "c",
+        "utility": "c",
+        "*.tcc": "c",
+        "format": "c",
+        "mutex": "c",
+        "stop_token": "c",
+        "variant": "c",
+        "math.h": "c",
+        "cstdint": "cpp"
+    }
+}
