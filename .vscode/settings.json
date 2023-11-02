@@ -19,6 +19,7 @@
         "stop_token": "c",
         "variant": "c",
         "math.h": "c",
-        "cstdint": "cpp"
+        "cstdint": "cpp",
+        "power.h": "c"
     }
 }

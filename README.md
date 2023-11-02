@@ -1,6 +1,13 @@
 # POS
 A PieceOfShit toy OS
 
+#  Pre build
+You need to run:
+```bash
+make -C limine
+```
+before you continue
+
 # Running 
 Using qemu:
 ```bash
