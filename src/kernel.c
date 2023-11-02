@@ -19,7 +19,7 @@ static volatile struct limine_framebuffer_request framebuffer_request = {
     .revision = 0};
 
 void _start(void)
-{   
+{
     sys_init_fpu();
 
     if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1)
@@ -33,15 +33,15 @@ void _start(void)
     init_display(framebuffer_request);
 
     serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Initialized display driver.");
-    set_background_color(0, 0, 0);
     int width = getWidth();
     int height = getHeight();
 
-    for(int i = 0; i < height - i; i++) {  
-        draw_circle(width / 2, height / 2, i, 255, 255, 255, 1);
+    for (uint64_t i = 0; i < width * height; i++) {
+        uint8_t red = rand() % 256;
+        uint8_t green = rand() % 256;
+        uint8_t blue = rand() % 256;
+        draw_pixel(i % width, i / width, red, green, blue);
     }
-
-    draw_circle(width / 2, height / 2, 200, 0, 0, 0, 1);
 
     hcf();
 }

@@ -28,3 +28,18 @@ float sin(float angle) {
 uint64_t llabs(int64_t num) {
     return (num < 0) ? -num : num;
 }
+
+int map(int value, int from_low, int from_high, int to_low, int to_high) {
+    return (value - from_low) * (to_high - to_low) / (from_high - from_low) + to_low;
+}
+
+unsigned long int next = 1;
+
+int rand() {
+    next = next * 1103515245 + 12345;
+    return (unsigned int)(next / 65536) % 32768;
+}
+
+void srand(unsigned int seed) {
+    next = seed;
+}
