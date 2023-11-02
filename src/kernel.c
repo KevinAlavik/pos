@@ -10,7 +10,6 @@
 #include "display/font.h"
 #include "serial/serial.h"
 #include "mm/mm.h"
-#include "gdt/gdt.h"
 #include "idt/idt.h"
 
 // Kernel Utilities
@@ -26,6 +25,11 @@ static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0};
 
+void interrupt0(void *frame) {
+    (void)frame;
+    serial_println(SERIAL_PORT, "interupt called");
+}
+
 void _start(void)
 {
     sys_init_fpu();
@@ -35,24 +39,21 @@ void _start(void)
         hcf();
     }
 
-    serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Initialized serial driver.");
-
     init_display(framebuffer_request);
+    serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
+    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Display driver.");
 
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Initialized display driver.");
-    serial_println(SERIAL_PORT, "\e[0;32mrunning random noise gen...\e[0m");
     int width = getWidth();
     int height = getHeight();
 
-    for (uint64_t i = 0; i < width * height; i++) {
-        uint8_t red = rand() % 256;
-        uint8_t green = rand() % 256;
-        uint8_t blue = rand() % 256;
-        draw_pixel(i % width, i / width, red, green, blue);
-    }
 
-    serial_println(SERIAL_PORT, "done.");
+    idt_t idt[256];
 
+    interrupt_wipe();   
+
+    interrupt_register(0, &interrupt0, 0x8E);
+    interrupt_flush();
+
+    asm volatile ("int $0");
     hcf();
 }

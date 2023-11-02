@@ -1,13 +1,6 @@
 # POS
 A PieceOfShit toy OS
 
-#  Pre build
-You need to run:
-```bash
-make -C limine
-```
-before you continue
-
 # Running 
 Using qemu:
 ```bash
@@ -21,17 +14,5 @@ make
 ```
 To build it into a iso run:
 ```bash
-make -C limine
-mkdir -p iso_root 
-cp -v bin/myos limine.cfg limine/limine-bios.sys \
-      limine/limine-bios-cd.bin limine/limine-uefi-cd.bin iso_root/
-mkdir -p iso_root/EFI/BOOT
-cp -v limine/BOOTX64.EFI iso_root/EFI/BOOT/
-cp -v limine/BOOTIA32.EFI iso_root/EFI/BOOT/
-xorriso -as mkisofs -b limine-bios-cd.bin \
-        -no-emul-boot -boot-load-size 4 -boot-info-table \
-        --efi-boot limine-uefi-cd.bin \
-        -efi-boot-part --efi-boot-image --protective-msdos-label \
-        iso_root -o image.iso
-./limine/limine bios-install image.iso
+./build-iso.sh
 ```

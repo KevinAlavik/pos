@@ -21,6 +21,3 @@ xorriso -as mkisofs -b limine-bios-cd.bin \
 
 ./limine/limine bios-install image.iso
 rm -rf iso_root
-make clean
-
-qemu-system-x86_64 -hda image.iso -serial stdio
