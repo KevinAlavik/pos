@@ -125,24 +125,3 @@ void draw_circle(uint64_t centerX, uint64_t centerY, uint64_t radius, uint8_t r,
         }
     }
 }
-
-
-void rei_trecing(uint16_t red, uint16_t green, uint16_t blue) {
-    for (size_t y = 0; y < framebuffer->height; y++) {
-        for (size_t x = 0; x < framebuffer->width; x++) {
-            float dirx = (float)x / framebuffer->width;
-            float diry = (float)y / framebuffer->height;
-            float r = .5;
-
-
-            float a = dirx*dirx + diry* diry + (-1)*(-1);
-            float b = 2.0 * (0*dirx + 0*diry + (-1)*(-1));
-            float c = 0*0 + 0*0 + (-1)*(-1) - r*r;
-            float discriminant = b*b - 4*a*c;
-
-            if(discriminant >= 0){
-                draw_pixel(x,y,red, green, blue);
-            }
-        }
-    }
-}
