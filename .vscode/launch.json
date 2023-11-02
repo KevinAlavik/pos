@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Build and run using qemu-system-x86_64 (linux) (Serial->stdio)",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "./boot.sh -serial stdio"
+        },
+        {
+            "name": "Build and run using qemu-system-x86_64 (linux) (Serial->regular)",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "./boot.sh"
+        },
+        {
+            "name": "Build ISO File (linux)",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "./build-iso.sh"
+        },
+    ]
+}

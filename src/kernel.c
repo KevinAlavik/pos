@@ -46,9 +46,6 @@ void _start(void)
     int width = getWidth();
     int height = getHeight();
 
-
-    idt_t idt[256];
-
     interrupt_wipe();   
 
     interrupt_register(0, &interrupt0, 0x8E);
