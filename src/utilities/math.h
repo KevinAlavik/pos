@@ -40,3 +40,7 @@ int rand() {
 void srand(unsigned int seed) {
     next = seed;
 }
+
+int rand_range(int min, int max) {
+    return min + rand() % (max - min + 1);
+}

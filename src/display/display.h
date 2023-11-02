@@ -132,3 +132,29 @@ void draw_circle(uint64_t centerX, uint64_t centerY, uint64_t radius, uint8_t r,
         }
     }
 }
+
+void draw_triangle(uint64_t x1, uint64_t y1, uint64_t x2, uint64_t y2, uint64_t x3, uint64_t y3, uint8_t r, uint8_t g, uint8_t b, int filled) {
+    if (filled) {
+        // Define the bounding box for the triangle
+        int minX = x1 < x2 ? (x1 < x3 ? x1 : x3) : (x2 < x3 ? x2 : x3);
+        int maxX = x1 > x2 ? (x1 > x3 ? x1 : x3) : (x2 > x3 ? x2 : x3);
+        int minY = y1 < y2 ? (y1 < y3 ? y1 : y3) : (y2 < y3 ? y2 : y3);
+        int maxY = y1 > y2 ? (y1 > y3 ? y1 : y3) : (y2 > y3 ? y2 : y3);
+
+        for (int y = minY; y <= maxY; y++) {
+            for (int x = minX; x <= maxX; x++) {
+                int w0 = (x - x2) * (y3 - y2) - (y - y2) * (x3 - x2);
+                int w1 = (x - x3) * (y1 - y3) - (y - y3) * (x1 - x3);
+                int w2 = (x - x1) * (y2 - y1) - (y - y1) * (x2 - x1);
+
+                if ((w0 >= 0 && w1 >= 0 && w2 >= 0) || (w0 <= 0 && w1 <= 0 && w2 <= 0)) {
+                    draw_pixel(x, y, r, g, b);
+                }
+            }
+        }
+    } else {
+        draw_line(x1, y1, x2, y2, r, g, b);
+        draw_line(x2, y2, x3, y3, r, g, b);
+        draw_line(x3, y3, x1, y1, r, g, b);
+    }
+}

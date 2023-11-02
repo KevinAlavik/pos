@@ -64,3 +64,58 @@ void serial_printw(uint16_t port, char* string) {
         i++;
     }
 }
+
+void serial_nprintln(uint16_t port, int num) {
+    char buffer[21];
+    int i = 0;
+    int is_negative = 0;
+
+    if (num < 0) {
+        is_negative = 1;
+        num = -num;
+    }
+
+    do {
+        buffer[i++] = (char)((num % 10) + '0');
+        num /= 10;
+    } while (num != 0);
+
+    if (is_negative) {
+        buffer[i++] = '-';
+    }
+
+    buffer[i] = '\0';
+
+    int j;
+    for (j = i - 1; j >= 0; j--) {
+        serial_print(port, buffer[j]);
+    }
+    serial_printw(port, "\r\n");
+}
+
+void serial_nprintw(uint16_t port, int num) {
+    char buffer[21];
+    int i = 0;
+    int is_negative = 0;
+
+    if (num < 0) {
+        is_negative = 1;
+        num = -num;
+    }
+
+    do {
+        buffer[i++] = (char)((num % 10) + '0');
+        num /= 10;
+    } while (num != 0);
+
+    if (is_negative) {
+        buffer[i++] = '-';
+    }
+
+    buffer[i] = '\0';
+
+    int j;
+    for (j = i - 1; j >= 0; j--) {
+        serial_print(port, buffer[j]);
+    }
+}
