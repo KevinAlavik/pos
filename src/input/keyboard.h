@@ -13,7 +13,7 @@ __attribute__((interrupt)) void keyboard_handler(void*) {
         
     outb8(SERIAL_PORT, data);
 
-    i8259_SendEndOfInterrupt(0x21);
+    i8259_SendEndOfInterrupt(1);
 }
 
 void keyboard_init() {
@@ -26,5 +26,5 @@ void keyboard_init() {
 
     outb8(PS2_COMMAND, 0xAE);
     outb8(PS2_DATA, 0xf4);
-    i8259_Unmask(0x21);
+    i8259_Unmask(1);
 }

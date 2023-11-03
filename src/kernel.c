@@ -22,6 +22,7 @@
 
 // Kernel Tools
 #include "ktools/interupts.h"
+#include "ktools/ktools.h"
 /* #include "ktools/pic-controller.h" */
 
 // Other Utilities
@@ -33,8 +34,6 @@
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0};
-
-
 
 void _start(void)
 {
@@ -60,7 +59,10 @@ void _start(void)
     logger_ok("Initialized Keyboard.");
 
     init_os_interupts();
-    logger_ok("Registered OS Interupts");
+    logger_dbg("Registered OS Interupts");
 
-    hcf();
+    int width = getWidth();
+    int height = getHeight();
+
+    hlt();
 }

@@ -32,6 +32,7 @@
         "string_view": "c",
         "vector": "c",
         "portio.h": "c",
-        "errors.h": "c"
+        "errors.h": "c",
+        "interupts.h": "c"
     }
 }
