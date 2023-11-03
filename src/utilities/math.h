@@ -1,29 +1,25 @@
 #include <stdint.h>
-#define PI 3.14159265
+#define PI 31416
 
 int abs(int value) {
     return (value >= 0) ? value : -value;
 }
 
-float fabs(float value) {
-    return (value < 0) ? -value : value;
-}
-
-float cos(float angle) {
-    int angle_int = (int)angle;
-    float result;
-    if (angle_int % 360 == 0 || angle_int % 360 == 180) {
-        result = angle_int % 360 == 0 ? 1 : -1;
-    } else if (angle_int % 360 == 90 || angle_int % 360 == 270) {
+int cos(int angle) {
+    int angle_int = angle % 36000;
+    int result;
+    if (angle_int == 0 || angle_int == 18000) {
+        result = angle_int == 0 ? 10000 : -10000;
+    } else if (angle_int == 9000 || angle_int == 27000) {
         result = 0;
     } else {
-        result = cos(angle - 0.0174533) - (cos(angle) * cos(angle) * cos(angle)) / 6;
+        result = cos(angle - 1745) - (cos(angle) * cos(angle) * cos(angle)) / 6000;
     }
     return result;
 }
 
-float sin(float angle) {
-    return cos(90 - angle);
+int sin(int angle) {
+    return cos(9000 - angle);
 }
 
 int map(int value, int from_low, int from_high, int to_low, int to_high) {
@@ -43,4 +39,8 @@ void srand(unsigned int seed) {
 
 int rand_range(int min, int max) {
     return min + rand() % (max - min + 1);
+}
+
+int division_by_zero() {
+    return 1 / 0;
 }

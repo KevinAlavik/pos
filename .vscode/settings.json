@@ -23,6 +23,7 @@
         "power.h": "c",
         "display.h": "c",
         "compare": "c",
-        "idt.h": "c"
+        "idt.h": "c",
+        "memory.h": "c"
     }
 }

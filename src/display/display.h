@@ -35,7 +35,7 @@ int getWidth() {
 }
 
 void draw_line(uint64_t x1, uint64_t y1, uint64_t x2, uint64_t y2, uint8_t r, uint8_t g, uint8_t b) {
-    uint64_t u_llabs(int64_t num) {
+    int64_t u_llabs(int64_t num) {
         return (num < 0) ? -num : num;
     }
     

@@ -58,6 +58,7 @@ override CFLAGS += \
     -mno-80387 \
     -mno-mmx \
     -mno-red-zone \
+    -mgeneral-regs-only \
     -Isrc/libkrnl \
     -DSUPPORT_FLOAT
  

@@ -3,27 +3,22 @@
 
 #include <stdint.h>
 
-typedef struct
-{
+typedef struct {
     uint16_t offset_low;
     uint16_t selector;
-    uint8_t stack_table;
+    uint8_t ist;
     uint8_t flags;
     uint16_t offset_middle;
     uint32_t offset_high;
-    uint32_t reserved;
-} idt_t;
+    uint32_t zero;
+} __attribute__((packed)) idt_entry_t;
 
-typedef struct
-{
+typedef struct {
     uint16_t limit;
     uint64_t base;
-} descriptor_t;
+} __attribute__((packed)) idt_pointer_t;
 
-extern idt_t idt[256];
+void load_idt(uint64_t);
+void trigger_interupt(uint64_t a);
 
-void interrupt_wipe();
-void interrupt_flush();
-void interrupt_register(uint8_t vector, void *interrupt_handler, uint8_t flags);
-
-#endif // IDT_H
+#endif /* IDT_H */

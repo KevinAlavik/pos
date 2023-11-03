@@ -1,35 +1,29 @@
 #include "idt.h"
 
-idt_t idt[256];
+#define IDT_ENTRIES 256
 
-void interrupt_wipe() {
-    for (int i = 0; i < 256; ++i) {
-        idt[i].offset_low = 0;
-        idt[i].selector = 0;
-        idt[i].stack_table = 0;
-        idt[i].flags = 0;
-        idt[i].offset_middle = 0;
-        idt[i].offset_high = 0;
-        idt[i].reserved = 0;
+idt_entry_t idt[IDT_ENTRIES];
+idt_pointer_t idt_p;
+
+extern void load_idt(uint64_t);
+
+void set_idt_gate(int num, uint64_t base, uint16_t sel, uint8_t flags) {
+    idt[num].offset_low = (base & 0xFFFF);
+    idt[num].offset_middle = (base >> 16) & 0xFFFF;
+    idt[num].offset_high = (base >> 32) & 0xFFFFFFFF;
+    idt[num].selector = sel;
+    idt[num].ist = 0;
+    idt[num].flags = flags;
+    idt[num].zero = 0;
+}
+
+void idt_init() {
+    idt_p.limit = sizeof(idt_entry_t) * IDT_ENTRIES - 1;
+    idt_p.base = (uint64_t)&idt;
+
+    for (int i = 0; i < IDT_ENTRIES; ++i) {
+        set_idt_gate(i, 0, 0, 0);
     }
-}
 
-void interrupt_flush() {
-    descriptor_t descriptor;
-    descriptor.limit = sizeof(idt) - 1;
-    descriptor.base = (uint64_t)&idt;
-
-    asm volatile ("lidt %0" :: "m"(descriptor) : "memory");
-}
-
-void interrupt_register(uint8_t vector, void *interrupt_handler, uint8_t flags) {
-    uint64_t handler_interrupt = (uint64_t)interrupt_handler;
-
-    idt[vector].offset_low = (uint16_t)handler_interrupt;
-    idt[vector].offset_middle = (uint16_t)(handler_interrupt >> 16);
-    idt[vector].offset_high = (uint32_t)(handler_interrupt >> 32);
-    idt[vector].selector = 0x28;
-    idt[vector].stack_table = 0;
-    idt[vector].flags = flags;
-    idt[vector].reserved = 0;
+    load_idt((uint64_t)&idt_p);
 }
