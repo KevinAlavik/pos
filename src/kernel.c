@@ -7,6 +7,7 @@
 
 // Kernel Imports
 #include "display/display.h"
+#include "display/bitmap.h"
 #include "display/font.h"
 #include "serial/serial.h"
 #include "mm/mm.h"
@@ -55,7 +56,7 @@ void _start(void)
     i8259_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8, false);
     logger_ok("Initialized PIC Controller");
 
-    keyboard_init();
+    keyboard_init(se_layout);
     logger_ok("Initialized Keyboard.");
 
     init_os_interupts();
@@ -63,6 +64,7 @@ void _start(void)
 
     int width = getWidth();
     int height = getHeight();
+
 
     hlt();
 }

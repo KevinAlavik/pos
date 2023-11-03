@@ -14,6 +14,10 @@ void draw_pixel(uint64_t x, uint64_t y, uint8_t r, uint8_t b, uint8_t g) {
     fb_ptr[y * framebuffer->width + x] = rgbth(r, g, b);
 }
 
+uint64_t getPitch() {
+    return framebuffer->pitch;
+}
+
 void set_background_color(uint16_t red, uint16_t green, uint16_t blue) {
     for (size_t x = 0; x < framebuffer->width; x++) {
         for(size_t y = 0; y < framebuffer->height; y++) {
