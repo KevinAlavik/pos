@@ -11,7 +11,13 @@
             "name": "Build and run (debug) using qemu-system-x86_64 (linux) (Serial->stdio)",
             "type": "f5anything",
             "request": "launch",
-            "command": "./boot.sh -serial stdio -d int -M smm=off"
+            "command": "./boot.sh -s -S -serial stdio -d int -M smm=off"
+        },
+        {
+            "name": "Build and run (debug) (no clean) using qemu-system-x86_64 (linux) (Serial->stdio)",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "./build-iso.sh && qemu-system-x86_64 -s -S image.iso -serial stdio -d int -M smm=off"
         },
         {
             "name": "Build and run using qemu-system-x86_64 (linux) (Serial->regular)",
@@ -25,5 +31,15 @@
             "request": "launch",
             "command": "./build-iso.sh"
         },
+        {
+            "type": "gdb",
+            "request": "attach",
+            "name": "Attach to gdbserver",
+            "executable": "${workspaceFolder}/pos.raw.bin",
+            "target": ":1234",
+            "remote": true,
+            "cwd": "${workspaceRoot}",
+            "valuesFormatting": "parseText"
+        }
     ]
 }

@@ -6,6 +6,7 @@ make clean
 make
 
 mkdir -p iso_root
+cp bin/$OS_NAME $OS_NAME.raw.bin
 cp -v bin/$OS_NAME limine.cfg limine/limine-bios.sys \
     limine/limine-bios-cd.bin limine/limine-uefi-cd.bin iso_root/
 
