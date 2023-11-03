@@ -8,6 +8,12 @@
             "command": "./boot.sh -serial stdio"
         },
         {
+            "name": "Build and run (debug) using qemu-system-x86_64 (linux) (Serial->stdio)",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "./boot.sh -serial stdio -d int -M smm=off"
+        },
+        {
             "name": "Build and run using qemu-system-x86_64 (linux) (Serial->regular)",
             "type": "f5anything",
             "request": "launch",
