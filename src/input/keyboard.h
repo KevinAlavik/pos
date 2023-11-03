@@ -9,9 +9,9 @@ __attribute__((interrupt)) void keyboard_handler(void*) {
 
     if(data == 0) {
         invalid_keyboard_data();
-    } else {
-        outb8(SERIAL_PORT, data);
     }
+        
+    outb8(SERIAL_PORT, data);
 
     i8259_SendEndOfInterrupt(0x21);
 }

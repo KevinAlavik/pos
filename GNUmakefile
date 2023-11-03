@@ -121,7 +121,9 @@ obj/%.asm.o: src/%.asm GNUmakefile
 	nasm $(NASMFLAGS) $< -o $@
  
 # Remove object files and the final executable.
-.PHONY: clean
+.PHONY: clean full-clean
 clean:
 	rm -rf bin obj pos.raw.bin
 
+full-clean:
+	rm -rf bin obj pos.raw.bin image.iso
