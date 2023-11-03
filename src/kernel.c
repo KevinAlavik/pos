@@ -26,8 +26,10 @@ static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0};
 
-__attribute__((interrupt)) void test_interupt(void*) {
-    serial_println(SERIAL_PORT, "interupt called.");
+__attribute__((interrupt)) void division_by_zero_error(void*) {
+    serial_println(SERIAL_PORT, "division by zero.");
+    set_background_color(255, 0, 0);
+    hcf();
 }
 
 void _start(void)
@@ -48,14 +50,11 @@ void _start(void)
     int width = getWidth();
     int height = getHeight();
 
-    set_idt_gate(1, (uint64_t)&test_interupt, 0x08, 0x8E);
+    set_idt_gate(0, (uint64_t)&division_by_zero_error, 0x28, 0x8E);
 
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Registered test interupt.");
-    serial_println(SERIAL_PORT, "[ \e[0;32m DEBUG \e[0m ] Triggering test interupt...");
+    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Registered interupts.");
+    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Triggering interupts.");
 
-    __asm__("int $1");
-
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Success??!?!");
-
+    division_by_zero();
     hcf();
 }
