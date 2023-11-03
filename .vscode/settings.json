@@ -24,6 +24,14 @@
         "display.h": "c",
         "compare": "c",
         "idt.h": "c",
-        "memory.h": "c"
+        "memory.h": "c",
+        "array": "c",
+        "iterator": "c",
+        "span": "c",
+        "string": "c",
+        "string_view": "c",
+        "vector": "c",
+        "portio.h": "c",
+        "errors.h": "c"
     }
 }

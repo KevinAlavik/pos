@@ -11,24 +11,30 @@
 #include "serial/serial.h"
 #include "mm/mm.h"
 #include "idt/idt.h"
+#include "input/keyboard.h"
 
 // Kernel Utilities
 #include <libkrnl/essentials.h>
 #include <libkrnl/arch/x86/cpu.h>
 #include <libkrnl/arch/x86/power.h>
 #include <libkrnl/arch/x86/rtc.h>
+/* #include <libkrnl/arch/x86/io/portio.h> */
+
+// Kernel Tools
+/* #include "ktools/pic-controller.h" */
 
 // Other Utilities
 #include "utilities/math.h"
 #include "utilities/tools.h"
+#include "serial/logger.h"
+#include "utilities/errors.h"
 
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0};
 
 __attribute__((interrupt)) void division_by_zero_error(void*) {
-    serial_println(SERIAL_PORT, "division by zero.");
-    set_background_color(255, 0, 0);
+    logger_err("Division by zero!");
     hcf();
 }
 
@@ -42,19 +48,28 @@ void _start(void)
     }
 
     serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
+
     init_display(framebuffer_request);
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Initialized display driver.");
+    logger_ok("Initialized Display.");
+
     idt_init();
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Initialized IDT.");
+    logger_ok("Initialized IDT..");
+
+    i8259_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8, false);
+    logger_ok("Initialized PIC Controller");
+
+    keyboard_init();
+    logger_ok("Initialized Keyboard..");
 
     int width = getWidth();
     int height = getHeight();
 
-    set_idt_gate(0, (uint64_t)&division_by_zero_error, 0x28, 0x8E);
+    // set_idt_gate(0, (uint64_t)&division_by_zero_error, 0x28, 0x8E);
 
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Registered interupts.");
-    serial_println(SERIAL_PORT, "[ \e[0;32m OK \e[0m ] Triggering interupts.");
+    // logger_dbg("Registered \"division by zero\" interupt.");
+    // logger_dbg("Triggering \"division by zero\" interupt.");    
 
-    division_by_zero();
+    // division_by_zero();
+
     hcf();
 }
