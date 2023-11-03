@@ -178,8 +178,7 @@ char *se_layout[0xFF + 1] = {
     [0x53] = "Keypad .",
     [0x57] = "F11",
     [0x58] = "F12",
-    [0x59 ... 0xFF] = {""}
-};
+    [0x59 ... 0xFF] = {""}};
 
 char *se_layout_print[0xFF + 1] = {
     [0x01] = NULL_CHAR, // Escape
@@ -271,11 +270,9 @@ char *se_layout_print[0xFF + 1] = {
 
 int letterWidth = 8;
 int letterHeight = 16;
-
 int letterSpacing = 5;
 int ammountOfLettersOnScreen = 0;
 int ammountOfLines = 0;
-
 int letterStartX = 5;
 int letterY = 5;
 
@@ -290,15 +287,15 @@ __attribute__((interrupt)) void keyboard_handler(void *)
 
     if (se_layout_print[data] != "")
     {
-        if ((letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen) + letterWidth > getWidth())
+        if ((letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen) + letterWidth > getWidth() || data == 0x1C)
         {
             ammountOfLines++;
-            letterY = 16 * ammountOfLines;
+            letterY += letterHeight + letterSpacing;
+            ammountOfLettersOnScreen = 0;
         }
-
-        if (data == 14 || data == 142)
-        { 
-            ammountOfLettersOnScreen-=1;
+        else if (data == 14 || data == 142)
+        {
+            ammountOfLettersOnScreen -= 1;
             draw_letter(se_layout_print[14], letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, 255, 255, 255);
         }
         else

@@ -12,6 +12,7 @@
 #include "mm/mm.h"
 #include "idt/idt.h"
 #include "input/keyboard.h"
+#include "sound/sound.h"
 
 // Kernel Utilities
 #include <libkrnl/essentials.h>
@@ -58,12 +59,21 @@ void _start(void)
     keyboard_init(se_layout);
     logger_ok("Initialized Keyboard.");
 
+    letterSpacing = printfLetterSpacing;
+
     init_os_interupts();
     logger_dbg("Registered OS Interupts");
 
     int width = getWidth();
     int height = getHeight();
 
+    // int hello[] = {P, O, S, EMPTY_CHAR, SYM_LP, V, NUM0, DOT, NUM0, DOT, NUM1, SYM_RP};
+
+    // printf(hello, sizeof(hello) / sizeof(hello[0]), printfLetterSpacing, printfLetterSpacing, 255, 255, 255);
+
+    // int seperator[] = { SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US };
+
+    // printf(seperator, sizeof(seperator) / sizeof(seperator[0]), printfLetterSpacing, (printfLetterSpacing + 8) * 2 , 190, 190, 190);
 
     hlt();
 }
