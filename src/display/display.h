@@ -1,6 +1,10 @@
 struct limine_framebuffer *framebuffer;
 volatile uint32_t *fb_ptr;
 
+uint16_t display_red = 0;
+uint16_t display_green = 0;
+uint16_t display_blue = 0;
+
 void init_display(volatile struct limine_framebuffer_request framebuffer_request) {
     framebuffer = framebuffer_request.response->framebuffers[0];
     fb_ptr = framebuffer->address;
@@ -19,12 +23,25 @@ uint64_t getPitch() {
 }
 
 void set_background_color(uint16_t red, uint16_t green, uint16_t blue) {
+    display_red = red;
+    display_green = green;
+    display_blue = blue;
+
     for (size_t x = 0; x < framebuffer->width; x++) {
         for(size_t y = 0; y < framebuffer->height; y++) {
-            draw_pixel(x, y, red, green, blue);
+            draw_pixel(x, y, display_red, display_green, display_blue);
         }
     }
 }
+
+void clear_area(int x, int y, int width, int height) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            draw_pixel(x + j, y + i, display_red, display_green, display_blue);
+        }
+    }
+}
+
 
 void display_write_data(uint32_t address, uint8_t red, uint8_t green, uint8_t blue) {
     fb_ptr[address] = rgbth(red, green, blue);

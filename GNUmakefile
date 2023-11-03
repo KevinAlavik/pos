@@ -60,7 +60,10 @@ override CFLAGS += \
     -mno-red-zone \
     -mgeneral-regs-only \
     -Isrc/libkrnl \
-    -DSUPPORT_FLOAT
+    -DSUPPORT_FLOAT \
+    -Wimplicit-function-declaration \
+    -Wdiv-by-zero \
+    -Wunused-variable
  
 # Internal C preprocessor flags that should not be changed by the user.
 override CPPFLAGS := \

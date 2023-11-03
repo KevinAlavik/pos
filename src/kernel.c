@@ -8,7 +8,6 @@
 // Kernel Imports
 #include "display/display.h"
 #include "display/bitmap.h"
-#include "display/font.h"
 #include "serial/serial.h"
 #include "mm/mm.h"
 #include "idt/idt.h"

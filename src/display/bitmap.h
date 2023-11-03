@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-uint8_t font[39][16] = {
+uint8_t font[40][16] = {
     {
         0b00111100,
         0b00111100,
@@ -702,6 +702,24 @@ uint8_t font[39][16] = {
         0b11000011,
         0b00111100,
         0b00111100,
+    },
+    {
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b11111111,
+        0b11111111,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
     }
 };
 
@@ -744,9 +762,16 @@ uint8_t font[39][16] = {
 #define NUM8 36
 #define NUM9 37
 #define NUM0 38
+#define SYM_DAH 39
+
+int allow_overlapping_char = 0;
 
 void draw_letter(int letterIndex, int x, int y, int r, int g, int b)
 {
+    if (allow_overlapping_char == 0) {
+        clear_area(x, y, 8, 16);
+    }
+
     for (size_t yi = 0; yi < 16; yi++)
     {
         for (size_t xi = 0; xi < 8; xi++)
