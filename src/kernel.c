@@ -21,6 +21,7 @@
 /* #include <libkrnl/arch/x86/io/portio.h> */
 
 // Kernel Tools
+#include "ktools/interupts.h"
 /* #include "ktools/pic-controller.h" */
 
 // Other Utilities
@@ -33,10 +34,7 @@ static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0};
 
-__attribute__((interrupt)) void division_by_zero_error(void*) {
-    logger_err("Division by zero!");
-    hcf();
-}
+
 
 void _start(void)
 {
@@ -59,17 +57,10 @@ void _start(void)
     logger_ok("Initialized PIC Controller");
 
     keyboard_init();
-    logger_ok("Initialized Keyboard..");
+    logger_ok("Initialized Keyboard.");
 
-    int width = getWidth();
-    int height = getHeight();
-
-    // set_idt_gate(0, (uint64_t)&division_by_zero_error, 0x28, 0x8E);
-
-    // logger_dbg("Registered \"division by zero\" interupt.");
-    // logger_dbg("Triggering \"division by zero\" interupt.");    
-
-    // division_by_zero();
+    init_os_interupts();
+    logger_ok("Registered OS Interupts");
 
     hcf();
 }
