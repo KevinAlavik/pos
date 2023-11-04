@@ -70,5 +70,6 @@ void _start(void)
 
     println(" ");
     println("Welcome! (type help for command list)");
+    
     hlt();
 }

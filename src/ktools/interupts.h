@@ -1,5 +1,5 @@
 __attribute__((interrupt)) void division_by_zero_error(void*) {
-    logger_err("Division by zero!");
+    println_err("Division by zero!");
     hcf();
 }
 
