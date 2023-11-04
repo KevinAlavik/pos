@@ -197,3 +197,11 @@ void print(char* string) {
         }
     }
 }
+
+
+void clear_screen() {
+    letterY = 5;
+    letterStartX = 5;
+
+    set_background_color(display_red, display_green, display_blue);
+}

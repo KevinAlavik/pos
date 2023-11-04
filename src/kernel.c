@@ -69,6 +69,5 @@ void _start(void)
 
     println(" ");
     println("READY.");
-
     hlt();
 }
