@@ -144,8 +144,12 @@ int outputText;
 
 void handle_user_input_buffer()
 {
+    drawShellIcon = 0;
+    letterStartX = (letterWidth + letterSpacing);
+
     if (kmemcmp(currentUserInput, "echo", 4) == 0)
     {
+
         char command[5];
         char message[1000];
         int input_length = strlen(currentUserInput);
@@ -161,6 +165,9 @@ void handle_user_input_buffer()
             }
             message[i] = '\0';
             println(message);
+
+            drawShellIcon = 1;
+            updatePrompt();
         }
     }
 
@@ -181,6 +188,9 @@ void handle_user_input_buffer()
         outputText = 0;
         set_background_color(display_red, display_green, display_blue);
         logger_dbg("Exited shell, reboot to relaunch the shell");
+
+        drawShellIcon = 1;
+        updatePrompt();
     }
     else if (kmemcmp(currentUserInput, "int", 3) == 0)
     {
@@ -193,19 +203,26 @@ void handle_user_input_buffer()
             i++;
         }
 
-
         if (number >= 0 && number <= 255)
         {
+
             asm volatile("int $0" ::"r"((int)number));
+
+            drawShellIcon = 1;
+            updatePrompt();
         }
         else
         {
             println_err("Invalid interrupt number. Must be between 0 and 255.");
+
+            drawShellIcon = 1;
+            updatePrompt();
         }
     }
 
     else if (kmemcmp(currentUserInput, "help", 4) == 0)
     {
+
         println("psh command list:");
         println(" - echo <message...>       : Prints the message to the screen");
         println(" - int <interupt number>   : Prints the message to the screen");
@@ -215,10 +232,17 @@ void handle_user_input_buffer()
         println(" - clear                   : Clears the screen");
         println(" - help                    : Shows this text");
         println(" ");
+
+        drawShellIcon = 1;
+        updatePrompt();
     }
     else
     {
+
         println("- psh: Command not found.");
+
+        drawShellIcon = 1;
+        updatePrompt();
     }
 }
 

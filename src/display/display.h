@@ -5,6 +5,8 @@ uint16_t display_red = 0;
 uint16_t display_green = 0;
 uint16_t display_blue = 0;
 
+int drawShellIcon;
+
 void init_display(volatile struct limine_framebuffer_request framebuffer_request) {
     framebuffer = framebuffer_request.response->framebuffers[0];
     fb_ptr = framebuffer->address;
