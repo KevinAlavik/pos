@@ -42,7 +42,7 @@ def generate_c_array_from_ttf(font_path):
     return all_characters_bitmap
 
 # Example Usage
-ttf_font_path = "Sweet16.ttf"  # Replace with your TTF font file
+ttf_font_path = "./tools/fonts/Sweet16.ttf"  # Replace with your TTF font file
 all_characters = generate_c_array_from_ttf(ttf_font_path)
 
 # Print C array for all characters

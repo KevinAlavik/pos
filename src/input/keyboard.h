@@ -94,7 +94,7 @@ char *se_layout_lower[0xFF + 1] = {
 
 int letterWidth = 8;
 int letterHeight = 16;
-int letterSpacing = -2;
+int letterSpacing = 0;
 int ammountOfLettersOnScreen = 0;
 int ammountOfLines = 0;
 int letterStartX = 5;
