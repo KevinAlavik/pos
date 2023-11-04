@@ -105,6 +105,38 @@ void erase_letter(int x, int y, int red, int green, int blue)
     draw_rect(x, y, x + 8, y + 16, red, green, blue, 1);
 }
 
+#define INPUT_BUFFER_SIZE 255
+
+char currentUserInput[INPUT_BUFFER_SIZE + 1];
+
+void initUserInputBuffer() {
+    kmemset(currentUserInput, '\0', INPUT_BUFFER_SIZE + 1);
+}
+
+void freeUserInputBuffer() {
+
+}
+
+void appendDataToUserInput(int data) {
+    if (data >= 0 && data <= 0xFF) {
+        if (strlen(se_layout_lower[data]) > 0) {
+            size_t inputLength = strlen(currentUserInput);
+            size_t newLength = inputLength + strlen(se_layout_lower[data]);
+
+            if (newLength < INPUT_BUFFER_SIZE) {
+                kmemcpy(currentUserInput + inputLength, se_layout_lower[data], strlen(se_layout_lower[data]));
+                currentUserInput[newLength] = '\0'; // Null-terminate the string
+            }
+        }
+    }
+}
+
+void handle_user_input_buffer() {
+    logger_ok("handler user input buffer called");
+    freeUserInputBuffer();
+}
+
+
 __attribute__((interrupt)) void keyboard_handler(void *)
 {
     uint8_t data = inb8(PS2_DATA);
@@ -113,8 +145,6 @@ __attribute__((interrupt)) void keyboard_handler(void *)
     {
         invalid_keyboard_data();
     }
-
-    // serial_nprintln(SERIAL_PORT, data);
 
     if (se_layout_lower[data] != "" || (data == 28 || data == 14))
     {
@@ -130,6 +160,7 @@ __attribute__((interrupt)) void keyboard_handler(void *)
         }
         else if (data == 28) // Enter
         {
+            handle_user_input_buffer();
             ammountOfLines++;
             letterY += letterHeight + letterSpacing;
             ammountOfLettersOnScreen = 0;
@@ -143,7 +174,9 @@ __attribute__((interrupt)) void keyboard_handler(void *)
                 erase_letter(letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, display_red, display_green, display_blue);
             }
         }
-        else {
+        else
+        {
+            appendDataToUserInput(data);
             draw_letter(letterAscii, letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, 255, 255, 255);
             ammountOfLettersOnScreen += 1;
         }

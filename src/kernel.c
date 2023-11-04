@@ -18,6 +18,7 @@
 #include <libkrnl/essentials.h>
 #include <libkrnl/arch/x86/cpu.h>
 #include <libkrnl/arch/x86/power.h>
+#include <libkrnl/klibc/memory.h>
 #include <libkrnl/arch/x86/rtc.h>
 /* #include <libkrnl/arch/x86/io/portio.h> */
 
