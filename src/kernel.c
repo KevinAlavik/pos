@@ -45,35 +45,30 @@ void _start(void)
         hcf();
     }
 
-    serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
+    // serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
 
     init_display(framebuffer_request);
-    logger_ok("Initialized Display.");
+    println_ok("Initialized Display.");
 
     idt_init();
-    logger_ok("Initialized IDT..");
+    println_ok("Initialized IDT..");
 
     i8259_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8, false);
-    logger_ok("Initialized PIC Controller");
+    println_ok("Initialized PIC Controller");
 
     keyboard_init();
-    logger_ok("Initialized Keyboard.");
+    println_ok("Initialized Keyboard.");
 
     letterSpacing = printfLetterSpacing;
 
     init_os_interupts();
-    logger_dbg("Registered OS Interupts");
+    println_dbg("Registered OS Interupts");
 
     int width = getWidth();
     int height = getHeight();
 
-    // int hello[] = {P, O, S, EMPTY_CHAR, SYM_LP, V, NUM0, DOT, NUM0, DOT, NUM1, SYM_RP};
-
-    // printf(hello, sizeof(hello) / sizeof(hello[0]), printfLetterSpacing, printfLetterSpacing, 255, 255, 255);
-
-    // int seperator[] = { SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US, SYM_US };
-
-    // printf(seperator, sizeof(seperator) / sizeof(seperator[0]), printfLetterSpacing, (printfLetterSpacing + 8) * 2 , 190, 190, 190);
+    println(" ");
+    println("READY.");
 
     hlt();
 }

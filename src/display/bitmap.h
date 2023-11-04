@@ -17,7 +17,7 @@ void draw_letter(int letterIndex, int x, int y, int r, int g, int b)
             uint8_t bit = font[letterIndex][yi] & (0x80 >> xi);
             if (bit != 0)
             {
-                draw_pixel(x + xi, y + yi, r, g, b);
+                draw_pixel(x + xi, y + yi, r, b, g);
             }
         }
     }

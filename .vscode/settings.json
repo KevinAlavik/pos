@@ -33,6 +33,8 @@
         "vector": "c",
         "portio.h": "c",
         "errors.h": "c",
-        "interupts.h": "c"
+        "interupts.h": "c",
+        "__string": "cpp",
+        "bitset": "cpp"
     }
 }
