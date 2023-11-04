@@ -113,8 +113,10 @@ void initUserInputBuffer() {
     kmemset(currentUserInput, '\0', INPUT_BUFFER_SIZE + 1);
 }
 
-void freeUserInputBuffer() {
-
+void clearUserInputBuffer() {
+    for (int i = 0; i <= INPUT_BUFFER_SIZE; i++) {
+        currentUserInput[i] = '\0';
+    }
 }
 
 void appendDataToUserInput(int data) {
@@ -132,10 +134,45 @@ void appendDataToUserInput(int data) {
 }
 
 void handle_user_input_buffer() {
-    logger_ok("handler user input buffer called");
-    freeUserInputBuffer();
+    
+    if (kmemcmp(currentUserInput, "draw", 4) == 0) {
+        int w = rand() % getWidth();
+        int h = rand() % getHeight();
+
+        int l = rand() % getHeight() * getHeight();
+
+        int c = rand() % 256;
+        int f = rand() % 1;
+
+        draw_rect(l / getWidth(), l / getHeight(), w, h, c, c, c, f);
+    } else if (kmemcmp(currentUserInput, "clear", 4) == 0) {
+        clear_screen();
+    } else if (kmemcmp(currentUserInput, "reboot", 4) == 0) {
+        sys_reboot();
+    } else if (kmemcmp(currentUserInput, "shutdown", 4) == 0) {
+        sys_shutdown_vm_only();
+    } else if (kmemcmp(currentUserInput, "help", 4) == 0) {
+        println("psh command list:");
+        println(" - reboot: Reboot the system");
+        println(" - shutdown: Shutdown the system (VM ONLY)");
+        println(" - draw: Draws a random rect on the screen");
+        println(" - clear: Clears the screen");
+        println(" - help: Shows this text");
+        println(" ");
+    } else {
+        println("- psh: Command not found.");
+    }
+
 }
 
+void removeLastNonEmptyCharacter() {
+    for (int i = INPUT_BUFFER_SIZE; i >= 0; i--) {
+        if (currentUserInput[i] != '\0') {
+            currentUserInput[i] = '\0';
+            break; // Exit the loop after clearing the last non-empty character
+        }
+    }
+}
 
 __attribute__((interrupt)) void keyboard_handler(void *)
 {
@@ -146,7 +183,8 @@ __attribute__((interrupt)) void keyboard_handler(void *)
         invalid_keyboard_data();
     }
 
-    if (se_layout_lower[data] != "" || (data == 28 || data == 14))
+
+    if (se_layout_lower[data] != "" || (data == 28 || data == 14 || data == 156))
     {
 
         char *letterString = se_layout_lower[data];
@@ -160,10 +198,14 @@ __attribute__((interrupt)) void keyboard_handler(void *)
         }
         else if (data == 28) // Enter
         {
-            handle_user_input_buffer();
             ammountOfLines++;
             letterY += letterHeight + letterSpacing;
             ammountOfLettersOnScreen = 0;
+        }
+
+        else if (data == 156) {
+            handle_user_input_buffer();
+            clearUserInputBuffer();
         }
 
         else if (data == 14) // Backspace
@@ -172,6 +214,7 @@ __attribute__((interrupt)) void keyboard_handler(void *)
             {
                 ammountOfLettersOnScreen -= 1;
                 erase_letter(letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, display_red, display_green, display_blue);
+                removeLastNonEmptyCharacter();
             }
         }
         else

@@ -69,6 +69,6 @@ void _start(void)
     int height = getHeight();
 
     println(" ");
-    println("READY.");
+    println("Welcome! (type help for command list)");
     hlt();
 }
