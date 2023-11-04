@@ -56,7 +56,7 @@ void _start(void)
     i8259_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8, false);
     logger_ok("Initialized PIC Controller");
 
-    keyboard_init(se_layout);
+    keyboard_init();
     logger_ok("Initialized Keyboard.");
 
     letterSpacing = printfLetterSpacing;
