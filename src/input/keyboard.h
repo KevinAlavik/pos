@@ -100,10 +100,10 @@ int ammountOfLines = 0;
 int letterStartX = 5;
 int letterY = 5;
 
-void erase_letter(int x, int y, int red, int green, int blue) {
-    draw_rect(x, y, x + 8, y + 16, red, green, blue, 1); 
+void erase_letter(int x, int y, int red, int green, int blue)
+{
+    draw_rect(x, y, x + 8, y + 16, red, green, blue, 1);
 }
-
 
 __attribute__((interrupt)) void keyboard_handler(void *)
 {
@@ -116,8 +116,9 @@ __attribute__((interrupt)) void keyboard_handler(void *)
 
     // serial_nprintln(SERIAL_PORT, data);
 
-    if (se_layout_lower[data] != "")
+    if (se_layout_lower[data] != "" || (data == 28 || data == 14))
     {
+
         char *letterString = se_layout_lower[data];
         int letterAscii = (int)letterString[0];
 
@@ -127,14 +128,14 @@ __attribute__((interrupt)) void keyboard_handler(void *)
             letterY += letterHeight + letterSpacing;
             ammountOfLettersOnScreen = 0;
         }
-        else if (data == 28 || data == 156) // Enter
+        else if (data == 28) // Enter
         {
             ammountOfLines++;
             letterY += letterHeight + letterSpacing;
             ammountOfLettersOnScreen = 0;
         }
 
-        else if (data == 14 || data == 142) // Backspace
+        else if (data == 14) // Backspace
         {
             if (ammountOfLettersOnScreen > 0)
             {
@@ -142,9 +143,7 @@ __attribute__((interrupt)) void keyboard_handler(void *)
                 erase_letter(letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, display_red, display_green, display_blue);
             }
         }
-
-        else
-        {
+        else {
             draw_letter(letterAscii, letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, 255, 255, 255);
             ammountOfLettersOnScreen += 1;
         }
