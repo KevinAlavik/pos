@@ -196,7 +196,7 @@ void handle_user_input_buffer()
 
         if (number >= 0 && number <= 255)
         {
-            // asm volatile("int $0" ::"a"((unsigned char)number));
+            asm volatile("int $0" ::"r"((int)number));
         }
         else
         {
