@@ -33,20 +33,12 @@
 #include "serial/logger.h"
 #include "utilities/errors.h"
 
+// Libraries
+
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0};
 
-void updatePrompt() {
-    if(drawShellIcon) {
-        if(letterStartX != letterWidth + printfLetterSpacing) {
-            letterStartX = letterWidth + printfLetterSpacing;
-        }
-
-        print("$");
-        letterStartX += (letterWidth + letterSpacing) * 2;
-    }
-}
 
 void _start(void)
 {
@@ -79,12 +71,7 @@ void _start(void)
     int width = getWidth();
     int height = getHeight();
 
-    drawShellIcon = 1;
-
-    println(" ");
-    println("Welcome! (type help for command list)");
-
-    updatePrompt();
+    
     
     hlt();
 }

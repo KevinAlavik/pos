@@ -1,5 +1,5 @@
-override CC := x86_64-elf-gcc
-override LD := x86_64-elf-ld
+override CC := gcc # Use x86_64-elf-gcc for macos
+override LD := ld  # Use x86_64-elf-ld for macos
 # Nuke built-in rules and variables.
 override MAKEFLAGS += -rR
  
