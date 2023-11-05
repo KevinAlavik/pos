@@ -24,8 +24,8 @@
 
 // Kernel Tools
 #include "ktools/interupts.h"
+#include "ktools/irqs.h"
 #include "ktools/ktools.h"
-/* #include "ktools/pic-controller.h" */
 
 // Other Utilities
 #include "utilities/math.h"
@@ -33,7 +33,6 @@
 #include "serial/logger.h"
 #include "utilities/errors.h"
 
-// Libraries
 
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
@@ -49,7 +48,7 @@ void _start(void)
         hcf();
     }
 
-    // serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
+    serial_printw(SERIAL_PORT, "\e[1;1H\e[2J");
 
     init_display(framebuffer_request);
     println_ok("Initialized Display.");
@@ -60,18 +59,27 @@ void _start(void)
     i8259_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8, false);
     println_ok("Initialized PIC Controller");
 
+    pit_init();
+    println_ok("Initialized PIT Controller"); 
+
     keyboard_init();
     println_ok("Initialized Keyboard.");
 
     letterSpacing = printfLetterSpacing;
 
     init_os_interupts();
-    println_dbg("Registered OS Interupts");
+    logger_ok("Registered OS Interupts");
 
     int width = getWidth();
     int height = getHeight();
 
-    
+
+    pit_sleep(100);
+
+    clear_screen();
+    println_ok("ready.");
+
+    logger_dbg("Booting into userspace..");
     
     hlt();
 }
