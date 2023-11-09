@@ -8,6 +8,7 @@ int letterSpacing = 0;
 int ammountOfLettersOnScreen = 0;
 int ammountOfLines = 0;
 int letterStartX = 5;
+int letterStartY = 5;
 int letterY = 5;
 
 size_t kstrlen(const char* str) {

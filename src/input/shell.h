@@ -1,5 +1,10 @@
 #include "libs/stdlib.h"
 
+#define INPUT_BUFFER_SIZE 255
+
+char currentUserInput[INPUT_BUFFER_SIZE + 1];
+
+
 void updatePrompt() {
     if(drawShellIcon) {
         if(letterStartX != letterWidth + printfLetterSpacing) {
@@ -10,16 +15,6 @@ void updatePrompt() {
         letterStartX += (letterWidth + letterSpacing) * 2;
     }
 }
-
-
-void erase_letter(int x, int y, int red, int green, int blue)
-{
-    draw_rect(x, y, x + 8, y + 16, red, green, blue, 1);
-}
-
-#define INPUT_BUFFER_SIZE 255
-
-char currentUserInput[INPUT_BUFFER_SIZE + 1];
 
 void initUserInputBuffer()
 {

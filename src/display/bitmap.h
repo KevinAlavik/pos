@@ -2,6 +2,7 @@
 #include "display/font.h"
 
 int allow_overlapping_char = 0;
+int outputText = 0;
 
 void draw_letter(int letterIndex, int x, int y, int r, int g, int b)
 {
@@ -21,4 +22,9 @@ void draw_letter(int letterIndex, int x, int y, int r, int g, int b)
             }
         }
     }
+}
+
+void erase_letter(int x, int y, int red, int green, int blue)
+{
+    draw_rect(x, y, x + 8, y + 16, red, green, blue, 1);
 }

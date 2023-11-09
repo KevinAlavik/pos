@@ -62,24 +62,35 @@ void _start(void)
     pit_init();
     println_ok("Initialized PIT Controller"); 
 
+    init_periodic_event();
+    println_ok("Initialized Periodic Event"); 
+
     keyboard_init();
     println_ok("Initialized Keyboard.");
 
-    letterSpacing = printfLetterSpacing;
-
     init_os_interupts();
-    logger_ok("Registered OS Interupts");
+    println_ok("Registered OS Interupts");
 
     int width = getWidth();
-    int height = getHeight();
+    println_ok("Window Width Saved");
 
+    int height = getHeight();   
+    println_ok("Window Height Saved");
+    
+    disableTextOutput();
+    println_ok("Disabled Text Output");
 
-    pit_sleep(100);
+    pit_sleep(300);
 
     clear_screen();
-    println_ok("ready.");
-
-    logger_dbg("Booting into userspace..");
-    
+    println(":::::::::   ::::::::   ::::::::  ");
+    println(":+:    :+: :+:    :+: :+:    :+: ");
+    println("+:+    +:+ +:+    +:+ +:+        ");
+    println("+#++:++#+  +#+    +:+ +#++:++#++ ");
+    println("+#+        +#+    +#+        +#+ ");
+    println("#+#        #+#    #+# #+#    #+# ");
+    println("###         ########   ########  ");
+    println(" ");
+    println("v0.0.1");
     hlt();
 }
