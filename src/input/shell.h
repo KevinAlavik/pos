@@ -47,7 +47,8 @@ void appendDataToUserInput(int data)
     }
 }
 
-int outputText;
+int echoText;
+int textBuffer;
 
 void handle_user_input_buffer()
 {

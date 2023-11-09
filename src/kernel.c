@@ -77,7 +77,10 @@ void _start(void)
     int height = getHeight();   
     println_ok("Window Height Saved");
     
-    disableTextOutput();
+    enableTextBuffer();
+
+    echoText = 1;
+
     println_ok("Disabled Text Output");
 
     pit_sleep(300);

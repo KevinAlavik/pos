@@ -7,12 +7,12 @@
 #define PS2_COMMAND 0x64
 #define PS2_DATA 0x60
 
-void disableTextOutput() {
-    outputText = 0;
+void disableTextBuffer() {
+    textBuffer = 0;
 }
 
-void enableTextOutput() {
-    outputText = 1;
+void enableTextBuffer() {
+    textBuffer = 1;
 }
 
 __attribute__((interrupt)) void keyboard_handler(void *)
@@ -24,7 +24,7 @@ __attribute__((interrupt)) void keyboard_handler(void *)
         invalid_keyboard_data();
     }
 
-    if (se_layout_lower[data] != "" || (data == 28 || data == 14 || data == 156))
+    if (se_layout_lower[data] != "" || (data == 28 || data == 14 || data == 156) && textBuffer)
     {
 
         char *letterString = se_layout_lower[data];
@@ -54,17 +54,19 @@ __attribute__((interrupt)) void keyboard_handler(void *)
 
         else if (data == 14) // Backspace
         {
-            if (ammountOfLettersOnScreen > 0 && outputText)
+            if (ammountOfLettersOnScreen > 0)
             {
-                ammountOfLettersOnScreen -= 1;
-                erase_letter(letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, display_red, display_green, display_blue);
+                if (echoText) {
+                    ammountOfLettersOnScreen -= 1;
+                    erase_letter(letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, display_red, display_green, display_blue);
+                }
                 removeLastNonEmptyCharacter();
             }
         }
         else
         {   
-            if(outputText) {
-                appendDataToUserInput(data);
+            appendDataToUserInput(data);
+            if(echoText) {
                 draw_letter(letterAscii, letterStartX + (letterWidth + letterSpacing) * ammountOfLettersOnScreen, letterY, 255, 255, 255);
                 ammountOfLettersOnScreen += 1;
             }   
