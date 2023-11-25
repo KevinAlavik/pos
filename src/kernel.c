@@ -79,21 +79,19 @@ void _start(void)
     
     enableTextBuffer();
 
-    echoText = 1;
+    println_ok("Enabled Text Buffer");
+
+    echoText = 0;
 
     println_ok("Disabled Text Output");
 
-    pit_sleep(300);
-
-    clear_screen();
-    println(":::::::::   ::::::::   ::::::::  ");
-    println(":+:    :+: :+:    :+: :+:    :+: ");
-    println("+:+    +:+ +:+    +:+ +:+        ");
-    println("+#++:++#+  +#+    +:+ +#++:++#++ ");
-    println("+#+        +#+    +#+        +#+ ");
-    println("#+#        #+#    #+# #+#    #+# ");
-    println("###         ########   ########  ");
-    println(" ");
-    println("v0.0.1");
+    println("");
+    println("        /      _/./");
+    println("   ,-'    `-:.,-'/");
+    println("  > O )<)    _  (");
+    println("   `-._  _.:' `-.\\");
+    println("       `` \\;");
+    println("");
+    println_color("Piece Of Shit - version 0.1", 66, 135, 245);
     hlt();
 }

@@ -39,6 +39,40 @@ void println(char* string) {
     letterY += printfLetterHeight; // Move to the next line
 }
 
+void println_color(char* string, int r, int g, int b) {
+    int length = kstrlen(string);
+    int wordWidth = (length - 1) * (printfLetterWidth + printfLetterSpacing);
+    
+    int startX = (printfStartFromMiddle) ? (letterStartX - (wordWidth / 2)) : letterStartX;
+
+    int currentX = startX;
+    for (int i = 0; i < length; i++) {
+        int letterIndex = (int)string[i];
+        if (letterIndex >= 0 && letterIndex <= 255) {
+            draw_letter(letterIndex, currentX, letterY, r, g, b);
+            currentX += printfLetterWidth + printfLetterSpacing;
+        }
+    }
+
+    letterY += printfLetterHeight; // Move to the next line
+}
+
+void print_color(char* string, int r, int g, int b) {
+    int length = kstrlen(string);
+    int wordWidth = (length - 1) * (printfLetterWidth + printfLetterSpacing);
+    
+    int startX = (printfStartFromMiddle) ? (letterStartX - (wordWidth / 2)) : letterStartX;
+
+    int currentX = startX;
+    for (int i = 0; i < length; i++) {
+        int letterIndex = (int)string[i];
+        if (letterIndex >= 0 && letterIndex <= 255) {
+            draw_letter(letterIndex, currentX, letterY, r, g, b);
+            currentX += printfLetterWidth + printfLetterSpacing;
+        }
+    }
+}
+
 void println_ok(char* string) {
     char* okString = "[ OK ]";
     int okLength = kstrlen(okString);
